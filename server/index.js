@@ -1,11 +1,13 @@
 import express from 'express'
+import 'express-async-errors'
+
 import { Nuxt, Builder } from 'nuxt'
 import cookieParser from 'cookie-parser';
 
 import routes from './routes'
 
 const app = express()
-const host = process.env.HOST || '127.0.0.1'
+const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 3000
 
 app.set('port', port)
@@ -27,8 +29,21 @@ const nuxt = new Nuxt(config)
 // Build only in dev mode
 if (config.dev) {
   const builder = new Builder(nuxt)
+
   builder.build()
 }
+
+// Catch any attempt for a know api call we couldn't find in previous middleware
+// and return 404 to prevent nuxt from rendering our index.vue
+app.use(function(req, res, next) {
+  if (/discover|instances/.test(req.originalUrl)) {
+    res.status(404).end()
+
+    return
+  }
+
+  next()
+})
 
 // Give nuxt middleware to express
 app.use(nuxt.render)

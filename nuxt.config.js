@@ -31,7 +31,10 @@ module.exports = {
    ** Add axios globally
    */
   build: {
-    vendor: ['axios'],
+    vendor: [
+      'axios',
+      'lumavate-toolbar'
+    ],
     /*
      ** Run ESLINT on save
      */
@@ -47,6 +50,15 @@ module.exports = {
     }
   },
   router: {
-    base: '/ic/vue/'
-  }
+    base: '/ic/vue/',
+    middleware: 'auth'
+  },
+  modules: [
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt'
+  ],
+  plugins: [
+    '~/plugins/app-initialize',
+    { ssr: false, src: '~/plugins/custom-elements' }
+  ]
 }
