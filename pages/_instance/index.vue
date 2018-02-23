@@ -1,7 +1,12 @@
 <template>
   <div>
-    <lumavate-toolbar></lumavate-toolbar>
-    <div>Testing</div>
+    <lumavate-toolbar backgroundcolor='#ACACAC'
+      items='[
+      {"title":"Home","icon":"home","url":"http://google.com","color":"red"},
+      {"title":"Good","icon":"note_add","url":"http://google.com","color":"blue"},
+      {"title":"Away","icon":"delete","url":"http://cnn.com"}]'>
+    </lumavate-toolbar>
+    <div class="title">Testing</div>
   </div>
 </template>
 
@@ -17,4 +22,12 @@ export default {
 </script>
 
 <style scoped>
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  lumavate-toolbar /deep/ .container {
+    padding: 16px;
+  }
 </style>

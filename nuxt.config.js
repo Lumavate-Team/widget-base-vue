@@ -1,3 +1,5 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 module.exports = {
   /*
    ** Headers of the page
@@ -21,6 +23,9 @@ module.exports = {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
+    }, {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
     }]
   },
   /*
@@ -31,6 +36,12 @@ module.exports = {
    ** Add axios globally
    */
   build: {
+    plugins: [
+      new CopyWebpackPlugin([
+        { from: './node_modules/lumavate-toolbar/dist/lumavate-toolbar/lumavate-toolbar.v28iu0po.js', to: 'lumavate-toolbar/lumavate-toolbar.v28iu0po.js' },
+        { from: './node_modules/lumavate-toolbar/dist/lumavate-toolbar/xokbryfm.js', to: 'lumavate-toolbar/xokbryfm.js' }
+      ])
+    ],
     vendor: [
       'axios',
       'lumavate-toolbar'
@@ -58,7 +69,6 @@ module.exports = {
     'cookie-universal-nuxt'
   ],
   plugins: [
-    '~/plugins/app-initialize',
-    { ssr: false, src: '~/plugins/custom-elements' }
+    '~/plugins/app-initialize'
   ]
 }
