@@ -61,7 +61,7 @@ export const actions = {
           return
         }
 
-        throw e
+        throw e.response
       }
     }
 

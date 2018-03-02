@@ -6,7 +6,7 @@
       {"title":"Good","icon":"note_add","url":"http://google.com","color":"blue"},
       {"title":"Away","icon":"delete","url":"http://cnn.com"}]'>
     </lumavate-toolbar>
-    <div class="title">Testing</div>
+    <div class="title">{{ instance.title }}</div>
   </div>
 </template>
 
@@ -25,9 +25,10 @@ export default {
   .title {
     font-size: 16px;
     font-weight: 500;
+    padding: 24px;
   }
 
   lumavate-toolbar /deep/ .container {
-    padding: 16px;
+    padding: 8px;
   }
 </style>

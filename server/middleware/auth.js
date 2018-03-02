@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { signUrl } from '@lumavate/request-signer'
 
 export default function(req, res, next) {
   console.log('Auth Middleware')
@@ -10,15 +11,22 @@ export default function(req, res, next) {
     return
   }
 
-  axios.get(`${process.env.BASE_URL}/pwa/v1/token`, {
-    headers: { 'Authorization': authHeader }
+  signUrl({
+    method: 'GET',
+    path: `/pwa/v1/token`
   })
-  .then(response => {
-    res.locals.authHeader = { 'Authorization': authHeader }
+    .then(signedPath =>
+      axios.get(`${process.env.BASE_URL}${signedPath}`, {
+        headers: { 'Authorization': authHeader }
+      })
+      .then(response => {
+        res.locals.authHeader = { 'Authorization': authHeader }
 
-    next()
-  })
-  .catch(err => {
-    res.status(401).end()
-  })
+        next()
+      })
+      .catch(err => {
+        res.status(401).end()
+      })
+    )
+    .catch(err => res.status(500).end())
 }

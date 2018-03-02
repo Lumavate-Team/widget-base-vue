@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import axios from 'axios'
+import { signUrl } from '@lumavate/request-signer'
 
 import auth from '../middleware/auth';
 
@@ -23,8 +24,12 @@ router.get('/discover/properties', function (req, res, next) {
 router.use('/instances', auth)
 
 router.get('/instances/:id/data', async function (req, res, next) {
-  const url = `${process.env.BASE_URL}/pwa/v1/widget-instances/${req.params.id}`
-  const axRes = await axios.get(url, {
+  const signedPath = await signUrl({
+    method: 'GET',
+    path: `/pwa/v1/widget-instances/${req.params.id}`
+  })
+
+  const axRes = await axios.get(`${process.env.BASE_URL}${signedPath}`, {
     headers: res.locals.authHeader
   })
 

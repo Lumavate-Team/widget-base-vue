@@ -5,7 +5,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'starter',
+    title: 'Vue Base Widget',
     meta: [{
       charset: 'utf-8'
       },
@@ -16,7 +16,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'Nuxt.js project'
+        content: 'Vue Base Widget'
       }
     ],
     link: [{
@@ -61,7 +61,7 @@ module.exports = {
     }
   },
   router: {
-    base: '/ic/vue/',
+    base: process.env.WIDGET_URL_PREFIX,
     middleware: 'auth'
   },
   modules: [
