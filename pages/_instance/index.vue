@@ -6,13 +6,13 @@
       {"title":"Good","icon":"note_add","url":"http://google.com","color":"blue"},
       {"title":"Away","icon":"delete","url":"http://cnn.com"}]'>
     </lumavate-toolbar>
-    <div class="title">{{ instance.title }}</div>
+    <div class="title">{{ instance.myText }}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'foo',
+  name: 'users',
   computed: {
     instance () {
       return this.$store.state.instanceData

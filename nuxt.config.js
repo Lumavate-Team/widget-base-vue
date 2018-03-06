@@ -60,6 +60,9 @@ module.exports = {
       }
     }
   },
+  env: {
+    widgetBaseUrl: process.env.WIDGET_URL_PREFIX
+  },
   router: {
     base: process.env.WIDGET_URL_PREFIX,
     middleware: 'auth'
