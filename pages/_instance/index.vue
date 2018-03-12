@@ -1,12 +1,6 @@
 <template>
   <div>
-    <lumavate-toolbar backgroundcolor='#ACACAC'
-      items='[
-      {"title":"Home","icon":"home","url":"http://google.com","color":"red"},
-      {"title":"Good","icon":"note_add","url":"http://google.com","color":"blue"},
-      {"title":"Away","icon":"delete","url":"http://cnn.com"}]'>
-    </lumavate-toolbar>
-    <div class="title">{{ instance.myText }}</div>
+    <div class="title">{{ instance.barColor }}</div>
   </div>
 </template>
 
