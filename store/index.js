@@ -28,7 +28,7 @@ export const actions = {
       instanceId: instanceId
     })
 
-    const baseUrl = `https://${req.hostname}`
+    const baseUrl = `http://${req.hostname}`
     const widgetPath = `/${integrationCloud}/${urlRef}`
     const redirectUrl = `${baseUrl}?u=${widgetPath}/${instanceId}`
     const token = app.$cookies.get('pwa_jwt')
