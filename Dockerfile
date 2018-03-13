@@ -19,6 +19,7 @@ COPY pages/ ./pages
 COPY plugins/ ./plugins
 COPY server/ ./server
 COPY static/ ./static
+COPY config/ ./config
 COPY store/ ./store
 COPY .eslintrc.js backpack.config.js nuxt.config.js ./
 
