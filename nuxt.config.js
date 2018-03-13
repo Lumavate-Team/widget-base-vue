@@ -50,6 +50,10 @@ module.exports = {
      ** Run ESLINT on save
      */
     extend(config, ctx) {
+      if (!ctx.isDev) {
+        config.output.publicPath = '_nuxt/'
+      }
+
       if (ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
