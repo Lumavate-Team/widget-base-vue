@@ -13,6 +13,7 @@ WORKDIR /app
 
 COPY assets/ ./assets
 COPY components/ ./components
+COPY config/ ./config
 COPY layouts/ ./layouts
 COPY middleware/ ./middleware
 COPY pages/ ./pages
