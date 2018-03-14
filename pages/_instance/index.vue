@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  name: 'users',
+  name: 'home',
   computed: {
     instance () {
-      return this.$store.state.instanceData
+      return this.$store.state.widget.instanceData
     }
   }
 }

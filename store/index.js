@@ -1,71 +1,83 @@
+import jwt from 'jsonwebtoken'
+
 export const state = () => ({
-  integrationCloud: null,
-  urlRef: null,
+  baseUrl: null,
   instanceId: null,
-  instanceData: null
+  integrationCloud: null,
+  pwaAuthRedirectUrl: null,
+  urlRef: null,
+  widgetPath: null
 })
 
 export const mutations = {
-  initContext (state, { integrationCloud, urlRef, instanceId }) {
-    state.integrationCloud = integrationCloud
-    state.urlRef = urlRef
+  SET_BASE_URL (state, baseUrl) {
+    state.baseUrl = baseUrl
+  },
+  SET_INSTANCE_ID (state, instanceId) {
     state.instanceId = instanceId
   },
-  initInstanceData (state, data) {
-    state.instanceData = data
+  SET_INTEGRATION_CLOUD (state, integrationCloud) {
+    state.integrationCloud = integrationCloud
+  },
+  SET_PWA_AUTH_REDIRECT_URL (state, pwaAuthRedirectUrl) {
+    state.pwaAuthRedirectUrl = pwaAuthRedirectUrl
+  },
+  SET_URL_REF (state, urlRef) {
+    state.urlRef = urlRef
+  },
+  SET_WIDGET_PATH (state, widgetPath) {
+    state.widgetPath = widgetPath
   }
 }
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { $axios, app, redirect, req }) {
-    console.log('server init')
-
+  init ({ commit }, { req }) {
     let [ , integrationCloud, urlRef, instanceId ] = req.originalUrl.split('/')
 
-    commit('initContext', {
-      integrationCloud: integrationCloud,
-      urlRef: urlRef,
-      instanceId: instanceId
-    })
+    commit('SET_INTEGRATION_CLOUD', integrationCloud)
+    commit('SET_URL_REF', urlRef)
+    commit('SET_INSTANCE_ID', instanceId)
 
-    const baseUrl = `https://${req.hostname}`
+    const baseUrl = `${req.protocol}://${req.hostname}`
     const widgetPath = `/${integrationCloud}/${urlRef}`
-    const redirectUrl = `${baseUrl}?u=${widgetPath}/${instanceId}`
+
+    commit('SET_BASE_URL', baseUrl)
+    commit('SET_WIDGET_PATH', widgetPath)
+    commit('SET_PWA_AUTH_REDIRECT_URL', `${baseUrl}?u=${widgetPath}/${instanceId}`)
+  },
+  async nuxtServerInit ({ commit, dispatch, state }, { app, error, redirect, req }) {
+    console.log('server init')
+
+    dispatch('init', { req })
+
     const token = app.$cookies.get('pwa_jwt')
 
     if (token) {
       try {
-        let axRes = await $axios.get(`${baseUrl}/pwa/v1/token`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+        await dispatch('auth/authenticate', { token })
 
-        if (axRes.data.payload.data) {
-          commit('auth/authenticate', token)
+        const tokenData = jwt.decode(token)
+        if (tokenData.authUrl && !app.$cookies.get('access_token')) {
+          return redirect(`${state.baseUrl}${tokenData.authUrl}/authorize?u=${req.originalUrl}`)
         }
 
-        axRes = await $axios.get(`${baseUrl}${widgetPath}/instances/${instanceId}/data`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
-
-        if (axRes.data) {
-          commit('initInstanceData', axRes.data)
-        }
+        await dispatch('widget/loadInstanceData')
 
         return
       } catch (e) {
         console.log('server init error redirect')
 
         if (e.response && e.response.status === 401) {
-          redirect(redirectUrl)
-
-          return
+          return redirect(state.pwaAuthRedirectUrl)
         }
 
-        throw e.response
+        // TODO: should log errors here and return friendly error message
+        console.error(e)
+        return error('An error occured')
       }
     }
 
     console.log('server init missing cookie redirect')
-    redirect(redirectUrl)
+    redirect(state.pwaAuthRedirectUrl)
   }
 }

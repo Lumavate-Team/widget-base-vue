@@ -1,32 +1,26 @@
 import axios from 'axios'
 import { signUrl } from '@lumavate/request-signer'
+import { validateToken } from '../auth/token'
 
-export default function(req, res, next) {
-  console.log('Auth Middleware')
+export default async function(req, res, next) {
+  console.log('Server Auth Middleware')
 
-  const authHeader = req.get('Authorization')
-  if (!authHeader) {
+  const bearerToken = req.get('Authorization')
+  if (!bearerToken) {
     res.status(401).end()
 
     return
   }
 
-  signUrl({
-    method: 'GET',
-    path: `/pwa/v1/token`
-  })
-    .then(signedPath =>
-      axios.get(`${process.env.BASE_URL}${signedPath}`, {
-        headers: { 'Authorization': authHeader }
-      })
-      .then(response => {
-        res.locals.authHeader = { 'Authorization': authHeader }
+  const token = bearerToken.split(' ')[1]
 
-        next()
-      })
-      .catch(err => {
-        res.status(401).end()
-      })
-    )
-    .catch(err => res.status(500).end())
+  try {
+    const tokenRes = validateToken(token)
+    res.locals.authHeader = { 'Authorization': bearerToken }
+
+    next()
+
+  } catch (err) {
+    res.status(401).end()
+  }
 }

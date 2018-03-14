@@ -12,10 +12,13 @@ const port = process.env.PORT || 3000
 
 app.set('port', port)
 
+// enable this setting to use the X-Forwarded-Proto header to accuratly get HTTPS protocol
+// otherwise when using req.protocol its always HTTP
+app.enable('trust proxy')
+
 app.use(cookieParser())
 app.use(express.json())
 
-//
 // Import API Routes
 app.use('/:ic/:urlRef', routes)
 
@@ -33,7 +36,7 @@ if (config.dev) {
   builder.build()
 }
 
-// Catch any attempt for a know api call we couldn't find in previous middleware
+// Catch any attempt for a known api call we couldn't find in previous middleware
 // and return 404 to prevent nuxt from rendering our index.vue
 app.use(function(req, res, next) {
   if (/discover|instances/.test(req.originalUrl)) {

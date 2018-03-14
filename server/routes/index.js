@@ -1,11 +1,11 @@
 import { Router } from 'express'
 
-import users from './users'
+import token from './auth'
 import widgets from './widgets'
 
 const router = Router()
 
-router.use(users)
+router.use(token)
 router.use(widgets)
 
 export default router
