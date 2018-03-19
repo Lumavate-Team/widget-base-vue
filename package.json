@@ -1,5 +1,5 @@
 {
-  "name": "vue-ssr-hello",
+  "name": "widget-base-vue",
   "version": "1.0.0",
   "description": "Nuxt.js project",
   "author": "Sean Lavies <s.lavies@labelnexus.com>",
@@ -12,15 +12,24 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@lumavate/designer-properties": "^0.1.1",
+    "@lumavate/request-signer": "^0.1.8",
+    "@nuxtjs/axios": "^5.0.1",
     "axios": "^0.17.1",
+    "cookie-universal-nuxt": "^1.0.13",
     "cross-env": "^5.1.3",
     "express": "^4.16.2",
+    "express-async-errors": "^2.1.2",
+    "jsonwebtoken": "^8.2.0",
+    "lumavate-toolbar": "0.0.2",
     "nuxt": "^1.3.0",
     "source-map-support": "^0.5.3"
   },
   "devDependencies": {
     "babel-eslint": "^8.1.0",
     "backpack-core": "^0.5.0",
+    "cookie-parser": "^1.4.3",
+    "copy-webpack-plugin": "^4.4.1",
     "eslint": "^4.17.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^1.9.0",
