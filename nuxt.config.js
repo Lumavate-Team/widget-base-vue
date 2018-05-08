@@ -6,27 +6,78 @@ module.exports = {
    */
   head: {
     title: 'Vue Base Widget',
-    meta: [{
-      charset: 'utf-8'
+		meta: [
+      {
+        charset: 'utf-8'
+      },
+      {
+        'http-equiv': 'X-UA-Compatible',
+        content: 'IE=edge'
       },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1'
       },
       {
+        name: 'theme-color',
+        content: '#ffffff'
+      },
+      {
         hid: 'description',
         name: 'description',
         content: 'Vue Base Widget'
+      },
+      {
+        name: 'format-detection',
+        content: 'telephone=no'
+      },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: 'no'
+      },
+      {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'black'
+      },
+    ],
+    link: [
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/iot/favicon-180x180.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/iot/favicon-32x32.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/iot/favicon-16x16.png'
+      },
+      {
+        rel: 'shortcut icon',
+        href: '/iot/favicon.ico'
+      },
+      {
+        rel: 'manifest',
+        href: '/manifest.json'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Teko:300,400,500'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
       }
     ],
-    link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
-    }, {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
-    }]
+    noscript: [
+      { innerHTML: 'Javascript required for this site to work.', body: true }
+    ]
   },
   /*
    ** Global CSS
@@ -53,7 +104,6 @@ module.exports = {
       if (!ctx.isDev) {
         config.output.publicPath = '_nuxt/'
       }
-
       if (ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
